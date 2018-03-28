@@ -1,0 +1,40 @@
+﻿@model Dictionary<string, IList<TableFieldInfo>>
+@{
+    ViewBag.Title = "Home Page";
+}
+
+<div class="row">
+    @foreach (var item in Model)
+    {
+        <h3>@item.Key 数据库存储过程设计字典</h3>
+        <div class="table-responsive">
+            @foreach (var tb in item.Value.GroupBy(m => new { m.TableName, m.TableDescription }))
+            {
+                <div>存储过程名称：@tb.Key.TableName <br />注释：@tb.Key.TableDescription</div>
+                <table class="table table-striped table-bordered">
+                    <thead>
+                        <tr>
+                            <th>参数名称</th>
+                            <th>描述</th>
+                            <th>类型</th>
+                            <th>长度</th>
+                            <th>小数位数</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var fieldInfo in tb)
+                        {
+                            <tr>
+                                <td>@fieldInfo.FieldName</td>
+                                <td>@fieldInfo.Description</td>
+                                <td>@fieldInfo.DataType</td>
+                                <td>@fieldInfo.DataLength</td>
+                                <td>@fieldInfo.Digit</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            }
+        </div>
+    }
+</div>
